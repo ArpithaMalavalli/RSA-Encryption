@@ -61,10 +61,13 @@ for i in range(0,len(z)):
 		create.append(-1)
 	else:
 		create.append(0)
-z=z.lower()'''
+z=z.lower()
 
 z=raw_input("enter what has to be encrypted   :")
-print "z=",z		
+print "z=",z'''
+f=open("toBeEncrypted.txt","r")
+z=f.read(2)
+f.close()		
 msg=0
 i=0
 for ch in z[::-1]:
@@ -87,14 +90,22 @@ print "public key (n,e) : ",public_key
 private_key=gen_private_key(n,phi,public_key[1])
 print "private key (n,d) ",private_key
 
-cipher=exponentMod(msg,public_key[1],n)
+#cipher=exponentMod(msg,public_key[1],n)
 
 def Encrypt():
 	c=exponentMod(msg,public_key[1],n)
 	print "encrypted=",c
+	f=open("encrypted.txt","w")
+	s=str(c)
+	f.write(s)
+	f.close()
 	listbox.insert(0,c)
 
 def Decrypt():
+	f=open("encrypted.txt","r")
+	s=f.read()
+	cipher=int(s)
+	f.close()
 	decryp=exponentMod(cipher,private_key[1],n)
 	print "decrypted=",decryp
 	dmsg=""
@@ -103,6 +114,9 @@ def Decrypt():
 		dmsg+=numbers[r]
 		decryp/=26
 	dmsg=dmsg[::-1]
+	f=open("Decrypted.txt","w")
+	f.write(dmsg)
+	f.close
 	print "The decrypted message is :",dmsg
 	listbox2.insert(0,dmsg)
 
