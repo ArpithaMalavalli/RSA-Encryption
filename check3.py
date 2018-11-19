@@ -1,11 +1,13 @@
 import random
 import math
 
-'''letters={'a':0,'b':1,'c':2,'d':3,'e':4,'f':5,'g':6,'h':7,'i':8,'j':9,'k':10,'l':11,'m':12,'n':13,'o':14,'p':15,'q':16,'r':17,'s':18,'t':19,'u':20,'v':21,'w':22,'x':23,'y':24,'z':25}
+letters={'a':0,'b':1,'c':2,'d':3,'e':4,'f':5,'g':6,'h':7,'i':8,'j':9,'k':10,'l':11,'m':12,'n':13,'o':14,'p':15,'q':16,'r':17,'s':18,'t':19,'u':20,'v':21,'w':22,'x':23,'y':24,'z':25}
 
 numbers={}
 for letter,num in letters.items():
-   numbers[num]=letter'''
+    numbers[num]=letter
+   
+
 def exponentMod(A,B,C) :
 
     # Base cases 
@@ -53,7 +55,7 @@ def gen_private_key(n,phi,e):
 	return (n,d)
 
 
-primes=[i for i in range(10,10) if isPrime(i)]
+primes=[i for i in range(10,100) if isPrime(i)]
 p=random.choice(primes)
 primes.remove(p)
 q=random.choice(primes)
@@ -68,12 +70,21 @@ print "public key (n,e) : ",public_key
 private_key=gen_private_key(n,phi,public_key[1])
 print "private key (n,d) ",private_key
 
+create=[]
 z=raw_input("enter what has to be encrypted   :")
-msg=1099 
+for i in range(0,len(z)):
+	if(z[i].isupper()):
+		create.append(-1)
+	else:
+		create.append(0)
+z=z.lower()
+
+print "z=",z		
+msg=0
 i=0
-'''for ch in z[::-1]:
+for ch in z[::-1]:
 	msg+=(letters[ch]*(26**i))
-	i+=1'''
+	i+=1
 print "Original message=\t",msg
 c=exponentMod(msg,public_key[1],n)
 decryp=exponentMod(c,private_key[1],n)
@@ -81,12 +92,24 @@ decryp=exponentMod(c,private_key[1],n)
 print "encrypted=",c
 print "decrypted=",decryp
 
-'''dmsg=""
+dmsg=""
 while(decryp>0):
 	r=decryp%26
 	dmsg+=numbers[r]
 	decryp/=26
-print "The decrypted message is :",dmsg[::-1]'''
+
+print "The decrypted message is :",dmsg[::-1]
+j=0
+cf=""
+for i in dmsg:
+	if(create[j]==0):
+		x=i.upper()
+		#print "x=\n",x
+		cf+=x
+	else:
+		cf+=i
+	j=j+1
+print "The decrypted message is :",cf[::-1]
 
 
 
