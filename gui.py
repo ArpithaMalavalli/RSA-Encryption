@@ -1,3 +1,4 @@
+from Tkinter import *
 import random
 import math
 
@@ -28,7 +29,6 @@ def exponentMod(A,B,C) :
         y = A % C
         y = (y * exponentMod(A, B - 1, C) % C) % C 
    
-  
     return (int)((y + C) % C) 
 
 def isPrime(n):
@@ -54,15 +54,16 @@ def gen_private_key(n,phi,e):
 	d=((k*phi)+1)/e
 	return (n,d)
 
-create=[]
+'''create=[]
 z=raw_input("enter what has to be encrypted   :")
 for i in range(0,len(z)):
 	if(z[i].isupper()):
 		create.append(-1)
 	else:
 		create.append(0)
-z=z.lower()
+z=z.lower()'''
 
+z=raw_input("enter what has to be encrypted   :")
 print "z=",z		
 msg=0
 i=0
@@ -86,30 +87,79 @@ print "public key (n,e) : ",public_key
 private_key=gen_private_key(n,phi,public_key[1])
 print "private key (n,d) ",private_key
 
-c=exponentMod(msg,public_key[1],n)
-decryp=exponentMod(c,private_key[1],n)
+cipher=exponentMod(msg,public_key[1],n)
 
-print "encrypted=",c
-print "decrypted=",decryp
+def Encrypt():
+	c=exponentMod(msg,public_key[1],n)
+	print "encrypted=",c
+	listbox.insert(0,c)
 
-dmsg=""
-while(decryp>0):
-	r=decryp%26
-	dmsg+=numbers[r]
-	decryp/=26
+def Decrypt():
+	decryp=exponentMod(cipher,private_key[1],n)
+	print "decrypted=",decryp
+	dmsg=""
+	while(decryp>0):
+		r=decryp%26
+		dmsg+=numbers[r]
+		decryp/=26
+	dmsg=dmsg[::-1]
+	print "The decrypted message is :",dmsg
+	listbox2.insert(0,dmsg)
 
-print "The decrypted message is :",dmsg[::-1]
-j=0
-cf=""
-for i in dmsg:
-	if(create[j]==0):
-		x=i.upper()
-		#print "x=\n",x
-		cf+=x
-	else:
-		cf+=i
-	j=j+1
-print "The decrypted message is :",cf[::-1]
+
+
+
+
+
+root = Tk()    
+# GUI title                
+root.title('RSA ENCRYPTOR AND DECRYPTOR')   
+
+# ******************plaintext input*****************
+l = Label(root,text='Input the plaintext')
+l.pack() 
+
+# input plaintext
+entryvalue = Entry(root) 
+entryvalue.pack()
+
+# click the Encrypt button
+button = Button(root,text="Encrypt",command=Encrypt) 
+button.pack()
+
+# show the ciphertext info.
+show = Label(root,text='Show Ciphertext:')
+show.pack() 
+listbox  = Listbox(root,height = 1, width = 40)        
+listbox.pack() 
+# ******************plaintext input ending*****************
+
+
+
+
+
+# ******************ciphertext input*****************
+label = Label(root,text='Input the ciphertext')
+label.pack() 
+
+# input ciphertext
+entryvalue2 = Entry(root) 
+entryvalue2.pack()
+
+# click the Decrypt button
+button2 = Button(root,text="Decrypt",command=Decrypt) 
+button2.pack()
+
+# show the plaintext info.
+show2 = Label(root,text='Show Plaintext:')
+show2.pack() 
+listbox2  = Listbox(root,height = 1, width = 40)         
+listbox2.pack() 
+# ******************ciphertext input ending*****************
+
+
+root.mainloop()                 
+
 
 
 
