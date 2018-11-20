@@ -1,8 +1,8 @@
-from Tkinter import *
+#from Tkinter import *
 import random
 import math
 
-letters={'a':26,'b':1,'c':2,'d':3,'e':4,'f':5,'g':6,'h':7,'i':8,'j':9,'k':10,'l':11,'m':12,'n':13,'o':14,'p':15,'q':16,'r':17,'s':18,'t':19,'u':20,'v':21,'w':22,'x':23,' ':0,'y':24,'z':25}
+letters={chr(i):i for i in range(256)}
 
 numbers={}
 for letter,num in letters.items():
@@ -56,8 +56,7 @@ def gen_private_key(n,phi,e):
 	return (n,d)
 
 f=open("toBeEncrypted.txt","r")
-list_of_strings=f.read().splitlines()
-z=list_of_strings[0]
+z=f.read()
 f.close()		
 
 primes=[i for i in range(26,1000) if isPrime(i)]
@@ -94,7 +93,7 @@ def Encrypt():
 		s=change(c)
 		print "each letter after padding: ",s
 		f=open("encrypted.txt","a+")
-		s=s+"\n"
+		s=s+" "
 		f.write(s)
 		f.close()
 
@@ -111,7 +110,7 @@ def changeback(i):
 
 def Decrypt():
 	f=open("encrypted.txt","r")
-	s=f.read().splitlines()
+	s=f.read().split()
 	f.close()
 	for i in s:
 		cipher=changeback(i)
