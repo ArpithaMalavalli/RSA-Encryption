@@ -1,1 +1,4 @@
-Arpitha Malavalli Srivathsa 12 A
+The Button widget is a standard Tkinter widget, which is used for various kinds of buttons. A button is a widget which is designed for the user to interact with, i.e. if the button is pressed by mouse click some action might be started. They can also contain text and images like labels. While labels can display text in various fonts, a button can only display text in a single font. The text of a button can span more than one line. 
+
+A Python function or method can be associated with a button. This function or method will be executed, if the button is pressed in some way.
+

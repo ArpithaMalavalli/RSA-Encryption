@@ -56,7 +56,6 @@ def gen_public_key(n,phi):
 def gen_private_key(n,phi,e):
 	list_random_k=[i for i in range(1,phi) if (((i*phi)+1)%e ==0)]
 	k=random.choice(list_random_k)
-	print "k=",k
 	d=((k*phi)+1)/e
 	return (n,d)
 
@@ -69,8 +68,8 @@ primes=[i for i in range(26,1000) if isPrime(i)]
 p=random.choice(primes)
 primes.remove(p)
 q=random.choice(primes)
-print "p=",p
-print "q=",q
+#print "p=",p
+#print "q=",q
 
 n=p*q
 phi=(p-1)*(q-1)
@@ -94,20 +93,17 @@ def change(c):
 #Encrypts character by character using function plaintext raised to the power e mod n using public key.
 def Encrypt():
 	for i in z:
-		c=exponentMod(letters[i],public_key[1],n)
-		print "each letter encrypted=",c
-		s=change(c)
-		print "each letter after padding: ",s
+		c=exponentMod(letters[i],public_key[1],n)      
+		s=change(c)                             
 		f=open("encrypted.txt","a+")               #Opens encrypted.txt in append mode
 		s=s+" "
 		f.write(s)                               #Writes encrypted text iteratively.
 		f.close()
-
+	print "Open encrypted.txt to see the encrypted file"
 Encrypt()
 
 #Removes padding before decryption.
 def changeback(i):
-	print i
 	original=""
 	for n in range(0,len(i)):
 		if(n%2==0):
@@ -122,15 +118,12 @@ def Decrypt():
 	f.close()
 	for i in s:
 		cipher=changeback(i)
-		print "cipher :",cipher
-		decryp=exponentMod(cipher,private_key[1],n)
-		print "each letter decrypted=",decryp
-		dmsg=numbers[decryp]
-		print "The decrypted charcter is :",dmsg
+		decryp=exponentMod(cipher,private_key[1],n)   
+		dmsg=numbers[decryp]                    #Decrypted character.
 		f=open("Decrypted.txt","a+")    #Opens Decrypted.txtin append mode.       
 		f.write(dmsg)                  #Writes decrypted code iteratively 
 	f.close()
-	
+	print "Open Decrypted.txt to see the decrypted file"
 	
 Decrypt()
 

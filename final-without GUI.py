@@ -1,7 +1,6 @@
-#from Tkinter import *
 import random
 import math
-
+#dictionary mapping 
 letters={chr(i):i for i in range(256)}
 
 numbers={}
@@ -125,77 +124,6 @@ def Decrypt():
 	
 	
 Decrypt()
-
-
-'''
-root = Tk()    
-# GUI title                
-root.title('RSA ENCRYPTOR AND DECRYPTOR')   
-
-# ******************plaintext input*****************
-l = Label(root,text='Input the plaintext')
-l.pack() 
-
-# input plaintext
-entryvalue = Entry(root) 
-entryvalue.pack()
-
-# click the Encrypt button
-button = Button(root,text="Encrypt",command=Encrypt) 
-button.pack()
-
-# show the ciphertext info.
-show = Label(root,text='Show Ciphertext:')
-show.pack() 
-listbox  = Listbox(root,height = 1, width = 40)        
-listbox.pack() 
-# ******************plaintext input ending*****************
-
-
-
-
-
-# ******************ciphertext input*****************
-label = Label(root,text='Input the ciphertext')
-label.pack() 
-
-# input ciphertext
-entryvalue2 = Entry(root) 
-entryvalue2.pack()
-
-# click the Decrypt button
-button2 = Button(root,text="Decrypt",command=Decrypt) 
-button2.pack()
-
-# show the plaintext info.
-show2 = Label(root,text='Show Plaintext:')
-show2.pack() 
-listbox2  = Listbox(root,height = 1, width = 40)         
-listbox2.pack() 
-# ******************ciphertext input ending*****************
-
-
-root.mainloop()                 
-'''
-
-
-
-	
-
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
