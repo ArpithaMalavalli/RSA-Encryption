@@ -1,0 +1,188 @@
+from Tkinter import *
+import random
+import math
+
+letters={chr(i):i for i in range(256)}
+
+numbers={}
+for letter,num in letters.items():
+    numbers[num]=letter
+   
+
+def exponentMod(A,B,C) :
+ 
+    if (A == 0):
+        return 0
+
+    if (B == 0):
+        return 1
+ 
+    if (B % 2 == 0):
+        y = exponentMod(A, B / 2, C)
+        y = (y * y) % C
+ 
+    else:
+        y = A % C
+        y = (y * exponentMod(A, B - 1, C) % C) % C 
+   
+    return (int)((y + C) % C) 
+
+def isPrime(n):
+    for i in range(2,int(n**0.5)+1):
+        if n%i==0:
+            return False
+    return True
+
+
+def gcd(x,y): 
+    if(y==0): 
+        return x 
+    else: 
+        return gcd(y,x%y)
+
+
+def gen_public_key(n,phi):
+	list_random_e=[i for i in range(1,phi) if (n%i!=0 and gcd(i,phi) ==1)]
+	e=random.choice(list_random_e)
+	return (n,e)
+
+def gen_private_key(n,phi,e):
+	list_random_k=[i for i in range(1,phi) if (((i*phi)+1)%e ==0)]
+	k=random.choice(list_random_k)
+	d=((k*phi)+1)/e
+	return (n,d)
+'''
+f=open("toBeEncrypted.txt","r")
+z=f.read()
+f.close()		
+'''
+primes=[i for i in range(26,1000) if isPrime(i)]
+p=random.choice(primes)
+primes.remove(p)
+q=random.choice(primes)
+
+n=p*q
+phi=(p-1)*(q-1)
+
+public_key=gen_public_key(n,phi)
+print "public key (n,e) : ",public_key
+private_key=gen_private_key(n,phi,public_key[1])
+print "private key (n,d) ",private_key
+
+
+def change(c):
+	d=""
+	while(c>0):
+		digit=c%10
+		e=random.randint(0,9)
+		d+=str(e)+str(digit)   #adding random then actual digit , on reversing we get actual digit followed by random no
+		c=c/10
+	return d[::-1]
+	
+
+
+def Encrypt():
+	tog=""
+	for i in entryvalue.get():
+		c=exponentMod(letters[i],public_key[1],n)
+		s=change(c)
+		s=s+" "
+		tog=tog+s
+	listbox.insert(0,tog)
+
+
+def changeback(i):
+	print i
+	original=""
+	for n in range(0,len(i)):
+		if(n%2==0):
+			original+=i[n]
+		
+	return int(original)
+
+def Decrypt():
+	list_of=entryvalue2.get().split()
+	decrypted_pwd=""
+	for i in list_of:
+		cipher=changeback(i)
+		decryp=exponentMod(cipher,private_key[1],n)
+		dmsg=numbers[decryp]
+		decrypted_pwd=decrypted_pwd+dmsg
+	listbox2.insert(0,decrypted_pwd)
+
+	
+
+
+root = Tk()    
+# GUI title                
+root.title('RSA ENCRYPTOR AND DECRYPTOR')   
+
+# ******************plaintext input*****************
+l = Label(root,text='Input the plaintext')
+l.pack() 
+
+# input plaintext
+entryvalue = Entry(root) 
+entryvalue.pack()
+
+# click the Encrypt button
+button = Button(root,text="Encrypt",command=Encrypt) 
+button.pack()
+
+# show the ciphertext info.
+show = Label(root,text='Show Ciphertext:')
+show.pack() 
+listbox  = Listbox(root,height = 10, width = 300)        
+listbox.pack() 
+# ******************plaintext input ending*****************
+
+
+
+
+
+# ******************ciphertext input*****************
+label = Label(root,text='Input the ciphertext')
+label.pack() 
+
+# input ciphertext
+entryvalue2 = Entry(root) 
+entryvalue2.pack()
+
+# click the Decrypt button
+button2 = Button(root,text="Decrypt",command=Decrypt) 
+button2.pack()
+
+# show the plaintext info.
+show2 = Label(root,text='Show Plaintext:')
+show2.pack() 
+listbox2  = Listbox(root,height = 10, width = 300)         
+listbox2.pack() 
+# ******************ciphertext input ending*****************
+
+
+root.mainloop()                 
+
+
+
+
+	
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
